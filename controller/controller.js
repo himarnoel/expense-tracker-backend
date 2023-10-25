@@ -15,10 +15,20 @@ const create_Categories = (req, res) => {
         .json({ message: `Error while creating categories ${err}` });
     });
 };
-
+//get all Categories
 const get_Categories = async (req, res) => {
-  let data = await model.Categories.find({});
-  return res.json(data);
+  model.Categories.find({})
+    .then((data) => {
+      let filter = data.map((v) =>
+        Object.assign({}, { type: v.type, color: v.color })
+      );
+      return res.json(filter);
+    })
+    .catch((err) => {
+      return res
+        .status(400)
+        .json({ message: `Erro occurred while fetching data` });
+    });
 };
 module.exports = {
   create_Categories,

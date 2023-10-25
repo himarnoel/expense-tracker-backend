@@ -3,7 +3,7 @@ const model = require("../models/model");
 const create_Categories = async (req, res) => {
   const Create = new model.Categories({
     type: "Expense",
-    color: "#1F3B5C", //dark
+    color: "#C43095", //dark
   });
   await Create.save()
     .then((resi) => {

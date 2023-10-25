@@ -30,7 +30,28 @@ const get_Categories = async (req, res) => {
         .json({ message: `Erro occurred while fetching data` });
     });
 };
+const create_Transaction = (req, res) => {
+  if (!req.body) return res.status(400).json("POST HTTP requires data");
+  let { name, type, amount } = req.body;
+  const create = new model.Transaction({
+    name,
+    type,
+    amount,
+    date: new Date(),
+  });
+  create
+    .save()
+    .then((data) => {
+      return res.json(data);
+    })
+    .catch((err) => {
+      return res
+        .status(400)
+        .json({ message: `Error creating transaction ${err}` });
+    });
+};
 module.exports = {
   create_Categories,
   get_Categories,
+  create_Transaction,
 };

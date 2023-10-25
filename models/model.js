@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 
 // Categories
 const categories_model = new Schema({
-  type: { type: string, default: "Investment" },
-  color: { type: string, default: "#FCBE44" },
+  type: { type: String, default: "Investment" },
+  color: { type: String, default: "#FCBE44" },
 });
 
 //transaction
 const transaction_model = new Schema({
-  name: { type: string, default: "Anonymous" },
-  type: { type: string, default: "Investment" },
+  name: { type: String, default: "Anonymous" },
+  type: { type: String, default: "Investment" },
   amount: { type: Number, default: "Investment" },
   date: { type: Date, default: Date.now() },
 });

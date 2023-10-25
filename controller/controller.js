@@ -50,7 +50,7 @@ const create_Transaction = (req, res) => {
         .json({ message: `Error creating transaction ${err}` });
     });
 };
-const get_Transactions = () => {
+const get_Transactions = (req, res) => {
   model.Transaction.find({})
     .then((data) => {
       return res.json(data);
@@ -63,14 +63,37 @@ const get_Transactions = () => {
 };
 const delete_Transaction = (req, res) => {
   if (!req.body) return res.status(400).json({ message: "Request not found" });
-  model.Transaction.deleteOne(req.body);
-  then((data) => {
-    return res.json("Record Deleted...!");
-  }).catch((err) => {
-    return res
-      .status(400)
-      .json({ message: `Error while deleting transaction Record` });
-  });
+  model.Transaction.deleteOne(req.body)
+    .then((data) => {
+      return res.json("Record Deleted...!");
+    })
+    .catch((err) => {
+      return res
+        .status(400)
+        .json({ message: `Error while deleting transaction Record` });
+    });
+};
+
+const get_Labels = (req, res) => {
+  model.Transaction.aggregate([
+    {
+      $lookup: {
+        from: "categories",
+        localField: "type",
+        foreignField: "type",
+        as: "categories_info",
+      },
+    },
+    {
+      $unwind: "$categories_info",
+    },
+  ])
+    .then((data) => {
+      return res.json(data);
+    })
+    .catch((err) => {
+      return res.json(err);
+    });
 };
 module.exports = {
   create_Categories,
@@ -78,4 +101,5 @@ module.exports = {
   create_Transaction,
   get_Transactions,
   delete_Transaction,
+  get_Labels,
 };

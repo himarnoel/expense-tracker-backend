@@ -50,8 +50,32 @@ const create_Transaction = (req, res) => {
         .json({ message: `Error creating transaction ${err}` });
     });
 };
+const get_Transactions = () => {
+  model.Transaction.find({})
+    .then((data) => {
+      return res.json(data);
+    })
+    .catch((err) => {
+      return res
+        .status(400)
+        .json({ message: `Error fetching transaction ${err}` });
+    });
+};
+const delete_Transaction = (req, res) => {
+  if (!req.body) return res.status(400).json({ message: "Request not found" });
+  model.Transaction.deleteOne(req.body);
+  then((data) => {
+    return res.json("Record Deleted...!");
+  }).catch((err) => {
+    return res
+      .status(400)
+      .json({ message: `Error while deleting transaction Record` });
+  });
+};
 module.exports = {
   create_Categories,
   get_Categories,
   create_Transaction,
+  get_Transactions,
+  delete_Transaction,
 };

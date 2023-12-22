@@ -6,7 +6,7 @@ const create_Categories = (req, res) => {
     color: "#C43095", //dark
   });
   Create.save()
-    .then((resi) => {
+    .then((res) => {
       return res.json(Create);
     })
     .catch((err) => {
@@ -88,7 +88,19 @@ const get_Labels = (req, res) => {
       $unwind: "$categories_info",
     },
   ])
-    .then((data) => {
+    .then((result) => {
+      let data = result.map((v) =>
+        Object.assign(
+          {},
+          {
+            _id: v._id,
+            name: v.name,
+            type: v.type,
+            amount: v.amount,
+            color: v.categories_info["color"],
+          }
+        )
+      );
       return res.json(data);
     })
     .catch((err) => {

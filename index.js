@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
+const cors = require("cors");
 dotenv.config();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(require("./routes/route"));
 // connection to db
 const con = require("./db/connection.js");
+
 con
   .then((db) => {
     if (!db) return process.exit(1);

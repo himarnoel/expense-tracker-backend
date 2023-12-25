@@ -1,13 +1,13 @@
 const model = require("../models/model");
-//get all Categories
+//create  Categories
 const create_Categories = (req, res) => {
   const Create = new model.Categories({
     type: "Expense",
     color: "#C43095", //dark
   });
   Create.save()
-    .then((res) => {
-      return res.json(Create);
+    .then((result) => {
+      return res.json(result);
     })
     .catch((err) => {
       return res
@@ -22,6 +22,7 @@ const get_Categories = async (req, res) => {
       let filter = data.map((v) =>
         Object.assign({}, { type: v.type, color: v.color })
       );
+
       return res.json(filter);
     })
     .catch((err) => {
